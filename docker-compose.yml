@@ -1,0 +1,42 @@
+version: "3.8"
+x-logging:
+  &my-logging
+  options:
+    max-size: '100m'
+    max-file: '2'
+services:
+  react-scamper-teacher:
+    # deploy:
+    #     resources:
+    #         limits:
+    #           cpus: '0.50'
+    #           memory: 512M
+    #         reservations:
+    #           cpus: '0.25'
+    #           memory: 128M
+    image: $regurl/react-scamper-teacher/react-scamper-teacher:latest
+    hostname: react-scamper-teacher
+    container_name: react-scamper-teacher
+    logging: *my-logging
+    networks:
+      #- default
+      - react-scamper-teacher
+    ports:
+      - 7410:3000
+#######################################
+# Networks: A default used by all container using bridge
+#######################################
+networks:
+  react-scamper-teacher:
+    driver: bridge
+    ipam:
+     driver: default
+     config:
+       - subnet: 20.0.8.216/29
+         ip_range: 20.0.8.217/29
+         gateway: 20.0.8.217
+         #aux_addresses:
+           #react-scamper-teacher: 20.0.0.18
+           ##host2: 172.28.1.6
+           ##host3: 172.28.1.7
+
