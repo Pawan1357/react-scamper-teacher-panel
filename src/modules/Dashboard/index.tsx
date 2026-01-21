@@ -2,8 +2,8 @@ import { Col, Row } from 'antd';
 
 import { TITLES } from 'utils/constants';
 
+import HeaderToolbar from 'components/common/HeaderToolbar';
 import Meta from 'components/common/Meta';
-import ContentHeader from 'components/layout/contentHeader';
 
 import { Wrapper } from './style';
 
@@ -12,7 +12,7 @@ const Dashboard = () => {
     <>
       <Meta title={`${TITLES.COMMON} - ${TITLES.DASHBOARD}`} />
       <Wrapper>
-        <ContentHeader pageTitle={TITLES.DASHBOARD} />
+        <HeaderToolbar title={TITLES.DASHBOARD} />
         <div className="shadow-paper">
           <Row>
             {/* <Col xs={24}>

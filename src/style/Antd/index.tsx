@@ -3,6 +3,7 @@ import { AntButton } from './AntButton';
 import { AntCollapse } from './AntCollapse';
 import { AntDropdown } from './AntDropdown';
 import { AntImage } from './AntImage';
+import { AntMenu } from './AntMenu';
 import { AntSearchInput } from './AntSearchInput';
 import { AntSpin } from './AntSpin';
 import { AntSteps } from './AntSteps';
@@ -20,6 +21,7 @@ const AntdStyle = () => {
       <AntCarousel />
       <AntButton />
       <AntSpin />
+      <AntMenu />
     </>
   );
 };

@@ -6,6 +6,7 @@ import { authStore } from 'services/store/auth';
 
 import { ICommonPagination } from './Types';
 import { LocalStorageKeys } from './constants';
+import { QUESTION_TYPE } from './constants/enum';
 
 //To concate the path for the public folder
 export const toAbsoluteUrl = (pathname: string) => window.location.origin + pathname;
@@ -136,4 +137,61 @@ export const getAntDSortOrder = (
   if (order === 'asc') return 'ascend';
   if (order === 'desc') return 'descend';
   return undefined;
+};
+
+export const formatPhoneDynamic = (num?: string) => {
+  if (!num) return '-';
+
+  // Example input: "+1 1234567890" or "+61 1234567890"
+  const parts = num.trim().split(' ');
+
+  if (parts.length !== 2) return num;
+
+  const countryCode = parts[0]; // +1 or +61
+  const digits = parts[1].replace(/\D/g, ''); // remove spaces or dashes
+
+  // Format only US (+1) numbers as (123) 456-7890
+  if (countryCode === '+1' && digits.length === 10) {
+    const area = digits.slice(0, 3);
+    const mid = digits.slice(3, 6);
+    const last = digits.slice(6);
+    return `${countryCode} (${area}) ${mid}-${last}`;
+  }
+
+  // For all other countries return as "+61 1234567890"
+  return `${countryCode} ${digits}`;
+};
+
+export const formatFileSize = (bytes: number | null | undefined): string => {
+  if (bytes && bytes > 0) {
+    if (bytes < 1024) return `${bytes} B`;
+    const kb = bytes / 1024;
+    if (kb < 1024) return `${kb.toFixed(2)} KB`;
+    const mb = kb / 1024;
+    if (mb < 1024) return `${mb.toFixed(2)} MB`;
+    const gb = mb / 1024;
+    return `${gb.toFixed(2)} GB`;
+  }
+  return '-';
+};
+
+export const questionType = (type: string): string => {
+  switch (type) {
+    case QUESTION_TYPE.MCQ:
+      return 'MCQ';
+    case QUESTION_TYPE.MATCH_PAIR:
+      return 'Pair';
+    case QUESTION_TYPE.DRAG_AND_DROP:
+      return 'Drag & Drop';
+    default:
+      return '-';
+  }
+};
+
+export const capitalizeFirst = (word: string = '') =>
+  word?.trim() ? word.charAt(0).toUpperCase() + word.slice(1) : null;
+
+export const truncateText = (text: string, maxLength: number = 200) => {
+  if (!text || text?.length <= maxLength) return text;
+  return text?.substring(0, maxLength) + '...';
 };

@@ -38,13 +38,15 @@ const ConfirmModal: React.FC<IConfirmModalProps> = (props) => {
 
   return (
     <React.Fragment>
-      <Button
-        {...buttonProps}
-        type="link"
-        block={true}
-        className="cta-btn"
-        onClick={() => handleOpenChange(true)}
-      />
+      {!isControlled && (
+        <Button
+          {...buttonProps}
+          type="link"
+          block={true}
+          className="cta-btn"
+          onClick={() => handleOpenChange(true)}
+        />
+      )}
       <CommonModal
         {...modalProps}
         width={415}
@@ -60,18 +62,19 @@ const ConfirmModal: React.FC<IConfirmModalProps> = (props) => {
         okButtonProps={{ ...modalProps.okButtonProps, className: 'cta-btn ok-btn' }}
         children={
           <div className="modal-body-wrap">
-            <picture className="modal-icon-wrap">
-              <ExclamationIcon />
-            </picture>
+            <picture className="modal-icon-wrap">{modalProps.icon || <ExclamationIcon />}</picture>
             {modalProps.title && (
               <Typography.Title className="modal-title" level={5}>
                 {modalProps.title}
               </Typography.Title>
             )}
             {modalProps.question && <p className="modal-question">{modalProps.question}</p>}
-            {modalProps.description && (
-              <Typography.Text className="modal-desc">{modalProps.description}</Typography.Text>
-            )}
+            {modalProps.description &&
+              (typeof modalProps.description === 'string' ? (
+                <Typography.Text className="modal-desc">{modalProps.description}</Typography.Text>
+              ) : (
+                <div className="modal-desc">{modalProps.description}</div>
+              ))}
           </div>
         }
       />

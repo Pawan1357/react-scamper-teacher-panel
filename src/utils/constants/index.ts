@@ -175,6 +175,11 @@ export const TITLES = {
   COMMON: 'Scamper Education',
   DASHBOARD: 'Dashboard',
   PROFILE: 'My Profile',
+  TEACHER_LEARNING: {
+    LIST: 'Learning',
+    VIEW_TEACHER_LEARNING_DETAILS: 'Learning',
+    VIEW_TEACHER_LEARNING_LESSON: 'Teacher Learning Lesson'
+  },
   EDIT_PROFILE: 'Edit Profile',
   CHANGE_PASSWORD: 'Change Password',
   AUTH: {
@@ -182,6 +187,18 @@ export const TITLES = {
     FORGOT_PASSWORD: 'Forgot Password',
     RESET_PASSWORD: 'Reset Password',
     SETUP_PASSWORD: 'Setup Password'
+  },
+  CLASSROOM: {
+    VIEW_CHAPTER: 'View Chapter Details',
+    VIEW_LESSON: 'View Lesson',
+    VIEW_ACTIVITY: 'View Skill Check'
+  },
+  CMS: {
+    TnC: 'Terms and Conditions',
+    PRIVACY_POLICY: 'Privacy Policy'
+  },
+  CHAPTER: {
+    LIST: 'Chapters'
   }
 };
 

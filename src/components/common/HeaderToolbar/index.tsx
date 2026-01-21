@@ -25,7 +25,7 @@ const HeaderToolbar: React.FC<IHeaderToolbarProps> = (props) => {
   };
 
   return (
-    <Wrapper className={`header-toolbar-wrap ${className || ''}`}>
+    <Wrapper className={`header-toolbar-wrap  ${className || ''}`}>
       <Row align="middle" justify="space-between" gutter={[10, 6]} className="main-row">
         {(title || button) && (
           <Col xs={24}>

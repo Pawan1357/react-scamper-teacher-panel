@@ -16,7 +16,7 @@ export interface IConfirmModalProps {
   modalProps: ICommonModalProps & {
     title?: string;
     question?: string;
-    description?: string;
+    description?: string | React.ReactNode;
     onOk?: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void> | void;
     open?: boolean;
     onOpenChange?: (open: boolean) => void;

@@ -1,18 +1,35 @@
 import { ReactNode } from 'react';
 
-import { Col, Row, Space } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import { Button, Col, Row, Space } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {
   pageTitle?: string;
   button?: ReactNode;
   gap?: number;
+  backBtn?: boolean;
+  backTo?: string;
+  backButtonHandler?: () => void;
 }
 
 const ContentHeader = (props: IProps) => {
+  const navigate = useNavigate();
+
+  const onBack = () => {
+    return props?.backTo ? navigate(props?.backTo) : navigate(-1);
+  };
   return (
     <div className="shadow-paper pad-md">
       <Row gutter={[0, 15]} align={'middle'}>
-        <Col xs={props?.button ? 18 : 24}>
+        {props?.backBtn && (
+          <Button
+            type="text"
+            icon={<ArrowLeftOutlined />}
+            onClick={props?.backButtonHandler ?? onBack}
+          />
+        )}
+        <Col xs={props?.backBtn ? 18 : 24}>
           <h2 className="pageTitle">{props?.pageTitle}</h2>
         </Col>
         {props?.button && (

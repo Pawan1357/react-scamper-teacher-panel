@@ -27,18 +27,37 @@ import { StyledLayout } from '../Layout.Styled';
 import { AvatarCircle } from './style';
 
 interface NavItem {
-  link: string;
+  link?: string;
   label: string;
   key: string;
+  children?: NavItem[];
 }
 
 const navItems: NavItem[] = [
   { link: ROUTES.dashboard, label: 'Dashboard', key: 'dashboard' },
-  { link: '/classrooms', label: 'Classrooms', key: 'classrooms' },
-  { link: '/chapters', label: 'Chapters', key: 'chapters' },
-  { link: '/learning', label: 'Learning', key: 'learning' },
+  { link: ROUTES.classroom.list, label: 'Classrooms', key: 'classrooms' },
+  { link: ROUTES.chapter.list, label: 'Chapters', key: 'chapters' },
+  { link: ROUTES.teacherLearning.list, label: 'Learning', key: 'learning' },
   { link: '/jobs', label: 'Jobs', key: 'jobs' },
-  { link: '/bonus-bucks', label: 'Bonus Bucks', key: 'bonus-bucks' }
+  { link: '/bonus-bucks', label: 'Bonus Bucks', key: 'bonus-bucks' },
+  { link: ROUTES.faq.faqs, label: 'FAQs', key: 'faqs' },
+  { link: ROUTES.contact.list, label: 'Contact Us', key: 'contact-us' },
+  {
+    label: 'CMS',
+    key: 'cms',
+    children: [
+      {
+        label: 'Terms & Conditions',
+        key: 'terms',
+        link: ROUTES.termsAndConditions
+      },
+      {
+        label: 'Privacy Policy',
+        key: 'privacy',
+        link: ROUTES.privacyPolicy
+      }
+    ]
+  }
 ];
 
 const Header = () => {
@@ -57,16 +76,34 @@ const Header = () => {
 
   const activeNavKey = useMemo(() => {
     const currentPath = location.pathname;
-    const activeItem = navItems.find(
-      (item) => item.link === currentPath || currentPath.startsWith(item.link + '/')
-    );
-    return activeItem ? [activeItem.key] : ['dashboard'];
+
+    for (const item of navItems) {
+      if (item.link && currentPath.startsWith(item.link)) {
+        return [item.key];
+      }
+
+      if (item.children) {
+        for (const child of item.children) {
+          if (child.link && currentPath.startsWith(child.link)) {
+            return [item.key, child.key];
+          }
+        }
+      }
+    }
+
+    return ['dashboard'];
   }, [location.pathname]);
 
-  const menuItems: ItemType<MenuItemType>[] = navItems.map((item) => ({
-    key: item.key,
-    label: item.label
-  }));
+  const menuItems: ItemType<MenuItemType>[] = useMemo(() => {
+    const mapItems = (items: NavItem[]): ItemType<MenuItemType>[] =>
+      items.map((item) => ({
+        key: item.key,
+        label: item.label,
+        children: item.children ? mapItems(item.children) : undefined
+      }));
+
+    return mapItems(navItems);
+  }, []);
 
   const closeMenu = useCallback(() => {
     if (mobileMenuOpen && !isClosing) {
@@ -78,9 +115,19 @@ const Header = () => {
     }
   }, [mobileMenuOpen, isClosing]);
 
-  const handleMenuClick = (key: string) => {
-    const item = navItems.find((nav) => nav.key === key);
-    if (item) {
+  const handleMenuClick = ({ key }: { key: string }) => {
+    const findItem = (items: NavItem[]): NavItem | undefined => {
+      for (const item of items) {
+        if (item.key === key) return item;
+        if (item.children) {
+          const found = findItem(item.children);
+          if (found) return found;
+        }
+      }
+    };
+
+    const item = findItem(navItems);
+    if (item?.link) {
       navigate(item.link);
       closeMenu();
     }
@@ -200,7 +247,7 @@ const Header = () => {
               mode="horizontal"
               selectedKeys={activeNavKey}
               items={menuItems}
-              onClick={({ key }) => handleMenuClick(key)}
+              onClick={handleMenuClick}
               className="header-nav-menu"
             />
           </Col>
@@ -260,7 +307,7 @@ const Header = () => {
             mode="inline"
             selectedKeys={activeNavKey}
             items={menuItems}
-            onClick={({ key }) => handleMenuClick(key)}
+            onClick={handleMenuClick}
             className="mobile-nav-menu"
           />
         </div>

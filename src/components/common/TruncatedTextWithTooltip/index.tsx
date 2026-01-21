@@ -1,0 +1,1 @@
+export { TruncatedTextWithTooltip } from './TruncatedTextWithTooltip';

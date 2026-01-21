@@ -6,6 +6,20 @@ import { styled } from 'styled-components';
 
 export const StyledTable = styled(Table)`
   &.ant-table-wrapper {
+    .ant-spin-nested-loading {
+      position: relative;
+      min-height: 200px;
+      > div > .ant-spin {
+        .ant-spin-dot {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          inset-inline-start: 50% !important;
+          transform: translate(-50%, -50%);
+          margin: 0;
+        }
+      }
+    }
     .ant-spin-container {
       .ant-table {
         border: 0;
