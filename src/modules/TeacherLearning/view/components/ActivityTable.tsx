@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ROUTES } from 'utils/constants/routes';
 
+import { STATUS_TAG_COLOR } from 'components/common/StatusTag/types';
 import { CommonTable } from 'components/common/Table';
 
 import { ActivityTableWrapper } from './ActivityTable.styled';
@@ -35,7 +36,7 @@ export const ActivityTable: React.FC<ActivityTableProps> = ({ activities, teache
       case 'in_progress':
         return '#FCB21D';
       case 'pending':
-        return '#FA751C';
+        return STATUS_TAG_COLOR.DANGER;
       case 'completed':
         return '#68A729';
       default:
