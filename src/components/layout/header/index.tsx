@@ -38,8 +38,6 @@ const navItems: NavItem[] = [
   { link: ROUTES.classroom.list, label: 'Classrooms', key: 'classrooms' },
   { link: ROUTES.chapter.list, label: 'Chapters', key: 'chapters' },
   { link: ROUTES.teacherLearning.list, label: 'Learning', key: 'learning' },
-  { link: '/jobs', label: 'Jobs', key: 'jobs' },
-  { link: '/bonus-bucks', label: 'Bonus Bucks', key: 'bonus-bucks' },
   { link: ROUTES.faq.faqs, label: 'FAQs', key: 'faqs' },
   { link: ROUTES.contact.list, label: 'Contact Us', key: 'contact-us' },
   {
