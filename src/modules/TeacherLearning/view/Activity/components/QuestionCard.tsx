@@ -28,7 +28,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
         )}
         {questionDescription && (
           <QuestionDescriptionWrapper>
-            <p>Question Description</p>
+            {/* <p>Question Description</p> */}
             <QuestionDescription>
               <div
                 className="tiptap-content-view"

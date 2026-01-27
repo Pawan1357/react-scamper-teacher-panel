@@ -43,7 +43,7 @@ export const AnswerResultModal: React.FC<AnswerResultModalProps> = ({
 
   const renderDescription = () => {
     if (isCorrect) {
-      return 'You have given correct answer. You may move to the next question.';
+      return null;
     }
 
     if (!correctAnswer) {
@@ -52,7 +52,7 @@ export const AnswerResultModal: React.FC<AnswerResultModalProps> = ({
 
     return (
       <>
-        <p>You have given incorrect answer. You may move to the next question.</p>
+        {/* <p>You have given incorrect answer. You may move to the next question.</p> */}
         <AnswerResultModalContent>
           <RightAnswerLabel>Right Answer:</RightAnswerLabel>
           <CorrectAnswerBox>{correctAnswer?.option_text}</CorrectAnswerBox>
