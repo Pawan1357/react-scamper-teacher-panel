@@ -132,7 +132,9 @@ const ViewTeacherLearning: React.FC = () => {
                         label: 'Downloadable Content',
                         children:
                           lessonData?.downloadable_content &&
-                          lessonData.downloadable_content.length > 0 ? (
+                          lessonData?.downloadable_content?.filter(
+                            (val: any) => val?.is_downloadable
+                          )?.length > 0 ? (
                             <CommonMedia
                               mode="resources"
                               urlName={getMediaUrlName()}

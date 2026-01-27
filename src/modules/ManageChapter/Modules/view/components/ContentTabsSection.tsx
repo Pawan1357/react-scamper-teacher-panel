@@ -56,7 +56,7 @@ export const ContentTabsSection: React.FC<ContentTabsSectionProps> = ({
     {
       key: 'resources',
       label: 'Downloadable Content',
-      children: resources?.length ? (
+      children: resources?.filter((val) => val?.is_downloadable)?.length ? (
         <CommonMedia
           mode="resources"
           urlName={ImageTypeEnum.CHAPTER}
