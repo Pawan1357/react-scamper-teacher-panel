@@ -177,8 +177,7 @@ const AssignChapters = () => {
                 size="small"
                 icon={<EyeOutlined />}
                 onClick={() => {
-                  // TODO: Navigate to chapter view
-                  console.log('View chapter:', record.id);
+                  navigate(ROUTES.chapter.viewChapter(record.id.toString()));
                 }}
               />
             </Tooltip>
@@ -186,7 +185,7 @@ const AssignChapters = () => {
         )
       }
     ],
-    [args?.sort_by, args?.sort_order]
+    [args?.sort_by, args?.sort_order, navigate]
   );
 
   return (
