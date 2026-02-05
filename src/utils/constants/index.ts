@@ -38,7 +38,7 @@ export const LocalStorageKeys = {
 
 export const VALIDATION_MESSAGES = {
   EMAIL: {
-    REQUIRED: `Please enter your email.`,
+    REQUIRED: `Please enter email.`,
     INVALID: {
       MESSAGE: `Please enter valid email.`,
       REGEX: REGEX.EMAIL_STANDARD
@@ -124,7 +124,8 @@ export const INPUTS = {
     SCHOOL_DISTRICT: 'School District',
     TEACHERS: 'Teachers',
     STUDENTS: 'Students',
-    GOOGLE_CLASSROOM_EMAIL: 'Google Classroom Email'
+    GOOGLE_CLASSROOM_EMAIL: 'Google Classroom Email',
+    SCHOOL_ID: 'School ID'
   },
   PLACEHOLDER: {
     EMAIL: 'Enter your registered email',
@@ -143,7 +144,13 @@ export const INPUTS = {
     SCHOOL_DISTRICT: 'Enter school district',
     TEACHERS: 'Enter number of teachers',
     STUDENTS: 'Enter number of students',
-    GOOGLE_CLASSROOM_EMAIL: 'Enter your Google Classroom email'
+    GOOGLE_CLASSROOM_EMAIL: 'Enter your Google Classroom email',
+    COMMON: {
+      FIRST_NAME: 'Enter first name',
+      LAST_NAME: 'Enter last name',
+      EMAIL: 'Enter email'
+    },
+    SCHOOL_ID: 'Enter school ID'
   }
 };
 
@@ -189,6 +196,12 @@ export const TITLES = {
     SETUP_PASSWORD: 'Setup Password'
   },
   CLASSROOM: {
+    LIST: 'Classrooms',
+    VIEW: 'View Classroom',
+    IMPORT_SUMMARY: 'Students - Import Summary',
+    ADD_STUDENT: 'Add Student',
+    EDIT_STUDENT: 'Edit Student',
+    VIEW_STUDENT: 'View Student',
     VIEW_CHAPTER: 'View Chapter Details',
     VIEW_LESSON: 'View Lesson',
     VIEW_ACTIVITY: 'View Skill Check'
@@ -198,7 +211,10 @@ export const TITLES = {
     PRIVACY_POLICY: 'Privacy Policy'
   },
   CHAPTER: {
-    LIST: 'Chapters'
+    LIST: 'Chapters',
+    VIEW_CHAPTER: 'View Chapter Details',
+    VIEW_LESSON: 'View Lesson',
+    VIEW_ACTIVITY: 'View Skill Check'
   }
 };
 

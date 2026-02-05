@@ -30,7 +30,7 @@ const defaultPaginationSettings: Partial<TablePaginationConfig> = {
 };
 
 export const CommonTable: React.FC<TableProps<any> & CustomProps> = (props) => {
-  const { pagination, summaryRow, emptyText } = props;
+  const { pagination, summaryRow, emptyText, rowKey } = props;
 
   return (
     <StyledTable
@@ -39,7 +39,7 @@ export const CommonTable: React.FC<TableProps<any> & CustomProps> = (props) => {
       pagination={pagination ? { ...defaultPaginationSettings, ...pagination } : false}
       scroll={props.scroll ?? { x: 'max-content' }}
       // TODO : depend on backend response
-      rowKey={(record: any) => (record?.id ? record?.id : '')}
+      rowKey={rowKey ? rowKey : (record: any, i) => (record?.id ? record?.id : i)}
       locale={{
         emptyText: emptyText || (
           <Empty

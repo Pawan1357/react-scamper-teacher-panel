@@ -23,7 +23,18 @@ const Dashboard = lazy(() => import('../modules/Dashboard'));
 const MyAccount = lazy(() => import('../modules/MyAccount'));
 
 // classroom
-const ClassroomPage = lazy(() => import('../modules/Classroom'));
+const ViewClassroomsList = lazy(() => import('../modules/Classrooms'));
+const ViewClassroom = lazy(() => import('../modules/Classrooms/modules/ViewClassroom'));
+const AssignChapters = lazy(() => import('../modules/Classrooms/modules/AssignChapters'));
+const StudentProgress = lazy(() => import('../modules/Classrooms/modules/StudentProgress'));
+const ImportSummary = lazy(() => import('../modules/Classrooms/modules/ImportSummary'));
+const AddStudent = lazy(() => import('../modules/Classrooms/modules/Student/pages/AddStudent'));
+const EditStudent = lazy(() => import('../modules/Classrooms/modules/Student/pages/EditStudent'));
+const ViewStudent = lazy(() => import('../modules/Classrooms/modules/Student/pages/ViewStudent'));
+
+const GoogleClassroomImport = lazy(
+  () => import('../modules/Classrooms/modules/GoogleClassroomImport')
+);
 
 // chapters
 const ViewChaptersList = lazy(() => import('../modules/ManageChapter'));
@@ -86,7 +97,28 @@ const Routing = () => {
         <Route path={ROUTES.dashboard} element={<Dashboard />} />
 
         {/* classroom */}
-        <Route path={ROUTES.classroom.list} element={<ClassroomPage />} />
+        <Route path={ROUTES.classroom.list} element={<ViewClassroomsList />} />
+        <Route path={ROUTES.classroom.view(':classroomId')} element={<ViewClassroom />} />
+        <Route
+          path={ROUTES.classroom.assignChapters(':classroomId')}
+          element={<AssignChapters />}
+        />
+        <Route
+          path={ROUTES.classroom.studentProgress(':classroomId')}
+          element={<StudentProgress />}
+        />
+        <Route path={ROUTES.classroom.importSummary(':fileName')} element={<ImportSummary />} />
+        <Route path={ROUTES.classroom.addStudent(':classroomId')} element={<AddStudent />} />
+        <Route
+          path={ROUTES.classroom.editStudent(':classroomId', ':studentId')}
+          element={<EditStudent />}
+        />
+        <Route
+          path={ROUTES.classroom.viewStudent(':classroomId', ':studentId')}
+          element={<ViewStudent />}
+        />
+
+        <Route path={ROUTES.classroom.googleClassroomImport} element={<GoogleClassroomImport />} />
 
         {/* chapters */}
         <Route path={ROUTES.chapter.list} element={<ViewChaptersList />} />

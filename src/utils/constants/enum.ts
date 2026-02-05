@@ -9,7 +9,8 @@ export enum ImageTypeEnum {
   TL_LESSON = 'tl_lesson',
   TL_ACTIVITY = 'tl_activity',
   TL_QUESTION = 'tl_question',
-  TEACHER = 'teacher'
+  TEACHER = 'teacher',
+  STUDENT = 'student'
 }
 
 export enum PAGE_LIMIT {

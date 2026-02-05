@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { EyeOutlined } from '@ant-design/icons';
-import { Avatar, Button } from 'antd';
+import { Avatar, Button, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
 import { formatDate } from 'utils/constants/day';
@@ -84,12 +84,14 @@ export const AssignedStudentsTable: React.FC<AssignedStudentsTableProps> = ({
         align: 'center',
         render: (_: any, record: AssignedStudentData) => (
           <RenderActionCell>
-            <Button
-              type="primary"
-              size="small"
-              icon={<EyeOutlined />}
-              onClick={() => onViewStudent?.(record.id)}
-            />
+            <Tooltip title="View Student">
+              <Button
+                type="primary"
+                size="small"
+                icon={<EyeOutlined />}
+                onClick={() => onViewStudent?.(record.id)}
+              />
+            </Tooltip>
           </RenderActionCell>
         )
       }

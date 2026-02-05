@@ -1,6 +1,7 @@
 export interface IStatusTagProps {
   status: string;
   color: string;
+  onClick?: () => void;
 }
 
 export enum STATUS_TAG_COLOR {
@@ -9,7 +10,7 @@ export enum STATUS_TAG_COLOR {
   DANGER = '#F5222D',
   OTHER = '#CD30DF',
   GRAY = '#BDBDBD',
-  PENDING = '#FA751C'
+  WARNING = '#FCB21D'
 }
 
 export enum CHAPTER_TAG_COLOR {

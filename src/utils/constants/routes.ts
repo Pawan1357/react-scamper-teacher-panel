@@ -11,7 +11,20 @@ export const ROUTES = {
   setupPassword: (token: string) => `/setup-password/${token}`,
   cleverCallback: `/auth/clever/callback`,
   classroom: {
-    list: '/manage-classroom'
+    list: '/manage-classroom',
+    view: (classroomId: string) => `/manage-classroom/view/${classroomId}`,
+    assignChapters: (classroomId: string) =>
+      `/manage-classroom/view/${classroomId}/assign-chapters`,
+    studentProgress: (classroomId: string) =>
+      `/manage-classroom/view/${classroomId}/student-progress`,
+    importSummary: (fileName: string) => `/manage-classroom/import-summary/${fileName}`,
+    googleClassroomCallback: `/manage-classroom/google-classroom/callback`,
+    googleClassroomImport: `/manage-classroom/google-classroom/import`,
+    addStudent: (classroomId: string) => `/manage-classroom/view/${classroomId}/student/add`,
+    editStudent: (classroomId: string, studentId: string) =>
+      `/manage-classroom/view/${classroomId}/student/${studentId}/edit`,
+    viewStudent: (classroomId: string, studentId: string) =>
+      `/manage-classroom/view/${classroomId}/student/${studentId}`
   },
   faq: {
     faqs: `/faqs`,

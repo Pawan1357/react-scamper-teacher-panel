@@ -7,16 +7,11 @@ import { ImageTypeEnum } from 'utils/constants/enum';
 import CommonMedia from 'components/common/Media/CommonMedia';
 import { defaultCarouselSettings } from 'components/common/Media/carouselSettings';
 
-import {
-  QuestionDescription,
-  QuestionDescriptionWrapper,
-  QuestionTitle
-} from '../ActivityView.styled';
+import { QuestionTitle } from '../ActivityView.styled';
 import type { QuestionCardProps } from '../types';
 
 export const QuestionCard: React.FC<QuestionCardProps> = ({
   questionText,
-  questionDescription,
   instruction,
   images = []
 }) => {
@@ -26,9 +21,9 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
         {(questionText || instruction) && (
           <QuestionTitle>{questionText || instruction}</QuestionTitle>
         )}
-        {questionDescription && (
+        {/* {questionDescription && (
           <QuestionDescriptionWrapper>
-            {/* <p>Question Description</p> */}
+            <p>Question Description</p>
             <QuestionDescription>
               <div
                 className="tiptap-content-view"
@@ -36,7 +31,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
               />
             </QuestionDescription>
           </QuestionDescriptionWrapper>
-        )}
+        )} */}
       </div>
       {images && images.length > 0 && (
         <CommonMedia

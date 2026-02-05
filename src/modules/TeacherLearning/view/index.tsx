@@ -106,6 +106,7 @@ const ViewTeacherLearning: React.FC = () => {
                             <ActivityTable
                               activities={activities}
                               teacherLearningId={teacherLearningId}
+                              selectedLessonId={selectedLessonId}
                             />
                           </section>
                         )
@@ -140,7 +141,7 @@ const ViewTeacherLearning: React.FC = () => {
                               urlName={getMediaUrlName()}
                               Carousel={Carousel}
                               data={
-                                lessonData.downloadable_content.filter(
+                                lessonData?.downloadable_content?.filter(
                                   (val: any) => val?.is_downloadable
                                 ) || []
                               }

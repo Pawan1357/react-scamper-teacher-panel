@@ -11,6 +11,7 @@ interface EmptyStateProps {
   defaultImage?: string;
   searchImage?: string;
   textStyle?: boolean;
+  className?: string;
 }
 
 const EmptyState: React.FC<EmptyStateProps> = ({
@@ -19,21 +20,22 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   search,
   defaultDescription = 'No Data',
   searchDescription = 'Search not found',
-  defaultImage = Empty.PRESENTED_IMAGE_SIMPLE
+  defaultImage = Empty.PRESENTED_IMAGE_SIMPLE,
+  className = ''
 }) => {
   if (!isEmpty) return null;
 
   return search ? (
     <Empty
       style={textStyle ? { fontSize: '20px', fontWeight: 'bolder' } : undefined}
-      className="pt-40 pb-40"
+      className={`${className} pt-40 pb-40`}
       image={defaultImage}
       description={searchDescription}
     />
   ) : (
     <Empty
       style={textStyle ? { fontSize: '20px', fontWeight: 'bolder' } : undefined}
-      className="pt-40 pb-40"
+      className={`${className} pt-40 pb-40`}
       image={defaultImage}
       description={defaultDescription}
     />

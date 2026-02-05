@@ -11,7 +11,8 @@ export const LabeledTitle = ({
   description = '',
   tag,
   tagBgColor = '',
-  isYearsTag = false
+  isYearsTag = false,
+  children
 }: {
   label: string;
   title?: string;
@@ -21,6 +22,7 @@ export const LabeledTitle = ({
   tag?: string;
   tagBgColor?: string;
   isYearsTag?: boolean;
+  children?: React.ReactNode;
 }) => {
   return (
     <LabeledTitleWrapper>
@@ -45,6 +47,7 @@ export const LabeledTitle = ({
         </Link>
       )}
       {tag && <AccessStatus isYearsTag={isYearsTag} status={tag} bgColor={tagBgColor} />}
+      {children}
     </LabeledTitleWrapper>
   );
 };

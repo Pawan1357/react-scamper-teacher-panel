@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 
 import { EyeOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Tag } from 'antd';
+import { Button, Tag, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useTeacherLearning } from 'modules/TeacherLearning/hooks/useTeacherLearning';
 import { useNavigate } from 'react-router-dom';
+import { IconWrapper } from 'style/Common/common';
 
 import { INPUTS } from 'utils/constants';
 import { ROUTES } from 'utils/constants/routes';
@@ -17,8 +18,6 @@ import { STATUS_TAG_COLOR } from 'components/common/StatusTag/types';
 import { CommonTable } from 'components/common/Table';
 import EmptyState from 'components/common/Table/EmptyState';
 import { TruncatedTextWithTooltip } from 'components/common/TruncatedTextWithTooltip';
-
-import { IconWrapper } from './style';
 
 const TeacherLearningTable = () => {
   const navigate = useNavigate();
@@ -111,16 +110,18 @@ const TeacherLearningTable = () => {
         render: (record: any) => {
           return (
             <RenderActionCell>
-              <Button
-                type="primary"
-                size="small"
-                icon={<EyeOutlined />}
-                onClick={() => {
-                  navigate(
-                    ROUTES.teacherLearning.viewTeacherLearning({ teacherLearningId: record.id })
-                  );
-                }}
-              />
+              <Tooltip title="View Teacher Learning">
+                <Button
+                  type="primary"
+                  size="small"
+                  icon={<EyeOutlined />}
+                  onClick={() => {
+                    navigate(
+                      ROUTES.teacherLearning.viewTeacherLearning({ teacherLearningId: record.id })
+                    );
+                  }}
+                />
+              </Tooltip>
             </RenderActionCell>
           );
         }

@@ -17,6 +17,7 @@ export interface ICommonPagination {
   limit?: number;
   search?: string;
   sort_by?: string;
+  classroom_id?: number;
   sort_order?: string;
   type?: string;
 }

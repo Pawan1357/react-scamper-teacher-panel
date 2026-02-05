@@ -2,10 +2,11 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { DeleteOutlined, EyeOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { useQueryClient } from '@tanstack/react-query';
-import { Button, Tag } from 'antd';
+import { Button, Tag, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { IconWrapper } from 'style/Common/common';
 
 import { ICommonPagination } from 'utils/Types';
 import { INPUTS } from 'utils/constants';
@@ -32,7 +33,7 @@ import { CommonTable } from 'components/common/Table';
 import EmptyState from 'components/common/Table/EmptyState';
 import { TruncatedTextWithTooltip } from 'components/common/TruncatedTextWithTooltip';
 
-import { ContactWrapper, IconWrapper } from './ContactTable.styles';
+import { ContactWrapper } from './ContactTable.styles';
 
 function useContactTableState(initialSearchParams: URLSearchParams) {
   const initialArgs: ICommonPagination = {
@@ -185,13 +186,15 @@ const ContactTable: React.FC = () => {
         key: 'actions',
         align: 'center',
         render: (_: any, record: IContactUsListRes) => (
-          <Button
-            type="primary"
-            title="View"
-            size="small"
-            icon={<EyeOutlined />}
-            onClick={() => handleView(record)}
-          />
+          <Tooltip title="View Contact">
+            <Button
+              type="primary"
+              title="View"
+              size="small"
+              icon={<EyeOutlined />}
+              onClick={() => handleView(record)}
+            />
+          </Tooltip>
         )
       }
     ],

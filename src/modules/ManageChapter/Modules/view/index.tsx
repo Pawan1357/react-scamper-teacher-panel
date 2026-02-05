@@ -154,8 +154,8 @@ const ViewChapterPage: React.FC = () => {
 
   return (
     <>
-      <Meta title={`${TITLES.COMMON} - ${TITLES.CLASSROOM.VIEW_CHAPTER}`} />
-      <HeaderToolbar title={TITLES.CLASSROOM.VIEW_CHAPTER} isMultipleBtn backBtn />
+      <Meta title={`${TITLES.COMMON} - ${TITLES.CHAPTER.VIEW_CHAPTER}`} />
+      <HeaderToolbar title={TITLES.CHAPTER.VIEW_CHAPTER} isMultipleBtn backBtn />
 
       <ContentSection role="main">
         <DetailTabsWrapper>

@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import { theme } from '../Theme';
 import { boxShadow } from './Mixin';
@@ -148,4 +148,10 @@ export const Common = createGlobalStyle`
 .card-padding {
     padding: 40px 73px;
 }
+`;
+
+export const IconWrapper = styled.span`
+  color: #9ea0aa;
+  font-size: 18px;
+  margin-right: 16px;
 `;

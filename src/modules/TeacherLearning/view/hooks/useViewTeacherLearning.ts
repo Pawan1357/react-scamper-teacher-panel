@@ -1,13 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 
 import { showToaster } from 'utils/functions';
 
 import { teacherLearningHooks } from 'services/teacherLearning';
 
 export const useViewTeacherLearning = () => {
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedLessonId, setSelectedLessonId] = useState<number | null>(null);
+  const hasInitializedFromUrl = useRef(false);
+  const previousUrlLessonId = useRef<string | null>(null);
 
   const { teacherLearningId } = useParams<{
     teacherLearningId: string;
@@ -81,14 +85,81 @@ export const useViewTeacherLearning = () => {
     activities_count: lesson.activities?.length || 0
   }));
 
+  // Initialize lesson selection from URL params or location state
+  // Only restore when: initial load OR URL param changed (indicating navigation back from activity)
   useEffect(() => {
-    if (lessons && lessons.length > 0 && !selectedLessonId) {
-      const firstLesson = lessons[0];
-      if (firstLesson) {
-        setSelectedLessonId(firstLesson.id);
+    if (lessons && lessons.length > 0) {
+      const lessonIdFromUrl = searchParams.get('lessonId');
+      const urlParamChanged = lessonIdFromUrl !== previousUrlLessonId.current;
+
+      // Always restore from URL if it exists and changed (this handles navigation back from activity)
+      // OR if we haven't initialized yet (initial load)
+      if (lessonIdFromUrl && (urlParamChanged || !hasInitializedFromUrl.current)) {
+        const lessonId = parseInt(lessonIdFromUrl, 10);
+        if (!isNaN(lessonId)) {
+          // Verify the lesson exists in the lessons array
+          const lessonExists = lessons.some((lesson) => lesson.id === lessonId);
+          if (lessonExists) {
+            // Always update to match URL param when it changes (navigation back)
+            setSelectedLessonId(lessonId);
+            previousUrlLessonId.current = lessonIdFromUrl;
+            hasInitializedFromUrl.current = true;
+            return;
+          }
+        }
+      }
+
+      // Update ref to track current URL param (even if null)
+      // This must happen after we check for changes, so we can detect the next change
+      if (!urlParamChanged) {
+        previousUrlLessonId.current = lessonIdFromUrl;
+      }
+
+      // Fallback: check if there's a lessonId in location state (from navigation back)
+      // Only use this if URL param doesn't exist and we haven't initialized yet
+      if (!lessonIdFromUrl && !hasInitializedFromUrl.current) {
+        const lessonIdFromState = (location.state as { lessonId?: number })?.lessonId;
+        if (lessonIdFromState) {
+          // Verify the lesson exists in the lessons array
+          const lessonExists = lessons.some((lesson) => lesson.id === lessonIdFromState);
+          if (lessonExists) {
+            setSelectedLessonId(lessonIdFromState);
+            hasInitializedFromUrl.current = true;
+            return;
+          }
+        }
+      }
+
+      // If no lessonId from URL/state or it doesn't exist, and we haven't initialized yet, default to first lesson
+      if (!selectedLessonId && !hasInitializedFromUrl.current) {
+        const firstLesson = lessons[0];
+        if (firstLesson) {
+          setSelectedLessonId(firstLesson.id);
+        }
+        hasInitializedFromUrl.current = true;
       }
     }
-  }, [lessons, selectedLessonId]);
+  }, [lessons, location.state, searchParams]);
+
+  // Update URL param when user manually changes tabs (but don't trigger navigation)
+  // This keeps the URL in sync with the selected tab
+  useEffect(() => {
+    if (selectedLessonId && hasInitializedFromUrl.current && teacherLearningId) {
+      const currentUrlLessonId = searchParams.get('lessonId');
+      const selectedLessonIdStr = String(selectedLessonId);
+
+      // Only update URL if it's different (user manually changed tab)
+      // This ensures URL always reflects the current tab selection
+      if (currentUrlLessonId !== selectedLessonIdStr) {
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set('lessonId', selectedLessonIdStr);
+        // Use replace to avoid adding to history when user manually changes tabs
+        setSearchParams(newSearchParams, { replace: true });
+        // Update the ref immediately so the first effect doesn't think URL changed
+        previousUrlLessonId.current = selectedLessonIdStr;
+      }
+    }
+  }, [selectedLessonId, teacherLearningId, searchParams, setSearchParams]);
 
   useEffect(() => {
     if (isError) {

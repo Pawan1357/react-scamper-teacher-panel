@@ -12,22 +12,34 @@ import { ActivityTableWrapper } from './ActivityTable.styled';
 interface ActivityTableProps {
   activities: any;
   teacherLearningId?: string;
+  selectedLessonId?: number | null;
 }
 
-export const ActivityTable: React.FC<ActivityTableProps> = ({ activities, teacherLearningId }) => {
+export const ActivityTable: React.FC<ActivityTableProps> = ({
+  activities,
+  teacherLearningId,
+  selectedLessonId
+}) => {
   const navigate = useNavigate();
 
   const handleStartActivity = (activityId: number, status: string) => {
     if (teacherLearningId) {
-      navigate(
-        ROUTES.teacherLearning.viewTLActivity({
-          teacherLearningId,
-          activityId: String(activityId)
-        }),
-        {
-          state: { activityStatus: status }
+      const url = ROUTES.teacherLearning.viewTLActivity({
+        teacherLearningId,
+        activityId: String(activityId)
+      });
+      const searchParams = new URLSearchParams();
+      if (selectedLessonId) {
+        searchParams.set('lessonId', String(selectedLessonId));
+      }
+      const finalUrl = searchParams.toString() ? `${url}?${searchParams.toString()}` : url;
+
+      navigate(finalUrl, {
+        state: {
+          activityStatus: status,
+          lessonId: selectedLessonId
         }
-      );
+      });
     }
   };
 

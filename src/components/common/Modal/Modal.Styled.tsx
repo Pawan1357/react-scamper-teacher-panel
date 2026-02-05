@@ -73,6 +73,10 @@ export const CommonModalStyle = styled(Modal)`
 
 export const ModalWrapper = styled(Modal)`
   &.ant-modal {
+    .ant-modal-close {
+      top: 26px !important;
+      right: 40px !important;
+    }
     &.common-modal {
       ${CommonModalStyle}
       &.logout-modal {

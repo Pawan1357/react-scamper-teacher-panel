@@ -1,10 +1,12 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { EyeOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Image } from 'antd';
+import { Button, Image, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { FilterValue, SorterResult } from 'antd/es/table/interface';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import { IconWrapper } from 'style/Common/common';
 
 import { ICommonPagination } from 'utils/Types';
 import { IMAGE_URL, INPUTS, TITLES } from 'utils/constants';
@@ -23,7 +25,7 @@ import { CommonTable } from 'components/common/Table';
 import EmptyState from 'components/common/Table/EmptyState';
 import { TruncatedTextWithTooltip } from 'components/common/TruncatedTextWithTooltip';
 
-import { FaqWrapper, IconWrapper } from './FaqTable.styles';
+import { FaqWrapper } from './FaqTable.styles';
 
 interface IFaqListItem {
   id: string;
@@ -199,13 +201,15 @@ const FaqTable: React.FC = () => {
         align: 'center',
         render: (_, record: IFaqListItem) => (
           <RenderActionCell>
-            <Button
-              type="primary"
-              title="View"
-              size="small"
-              icon={<EyeOutlined />}
-              onClick={() => navigate(ROUTES.faq.viewFaq(String(record?.id)))}
-            />
+            <Tooltip title="View FAQ">
+              <Button
+                type="primary"
+                title="View"
+                size="small"
+                icon={<EyeOutlined />}
+                onClick={() => navigate(ROUTES.faq.viewFaq(String(record?.id)))}
+              />
+            </Tooltip>
           </RenderActionCell>
         )
       }

@@ -1,19 +1,24 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useQueryClient } from '@tanstack/react-query';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
+import { ROUTES } from 'utils/constants/routes';
 import { showToaster } from 'utils/functions';
 
+import { classroomQueryKeys } from 'services/classroom';
+import { manageStudentQueryKeys } from 'services/manageStudent';
 import { teacherLearningHooks, teacherLearningQueryKey } from 'services/teacherLearning';
 import * as Types from 'services/teacherLearning/types';
 
 export const useViewTLActivity = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
   const activityStatus =
     (location.state as { activityStatus?: string })?.activityStatus || 'pending';
+  const lessonIdFromUrl = searchParams.get('lessonId');
 
   const [selectedOptionId, setSelectedOptionId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,10 +59,11 @@ export const useViewTLActivity = () => {
   }, [activityDetails, activityStatus]);
 
   useEffect(() => {
-    if (teacherLearningId)
-      queryClient.invalidateQueries({
-        queryKey: teacherLearningQueryKey.getTeacherLearningById(teacherLearningId)
-      });
+    if (teacherLearningId) {
+      queryClient.invalidateQueries({ queryKey: teacherLearningQueryKey.all });
+      queryClient.invalidateQueries({ queryKey: classroomQueryKeys.all });
+      queryClient.invalidateQueries({ queryKey: manageStudentQueryKeys.all });
+    }
   }, [queryClient, teacherLearningId]);
 
   // Determine which questionId to use for the API call
@@ -262,9 +268,18 @@ export const useViewTLActivity = () => {
           // The query will automatically refetch when currentQuestionId changes
           return;
         } else {
-          // No more questions, redirect back
+          // No more questions, redirect back with lessonId preserved
           if (teacherLearningId) {
-            navigate(-1);
+            const lessonId = lessonIdFromUrl || (location.state as { lessonId?: number })?.lessonId;
+            const returnUrl = ROUTES.teacherLearning.viewTeacherLearning({ teacherLearningId });
+            const searchParams = new URLSearchParams();
+            if (lessonId) {
+              searchParams.set('lessonId', String(lessonId));
+            }
+            const finalUrl = searchParams.toString()
+              ? `${returnUrl}?${searchParams.toString()}`
+              : returnUrl;
+            navigate(finalUrl);
           }
           return;
         }
@@ -273,7 +288,7 @@ export const useViewTLActivity = () => {
       // For non-view mode, refetch to get next question after modal is closed
       refetchQuestion();
     },
-    [refetchQuestion, isViewMode, getNextQuestionId, teacherLearningId, navigate]
+    [refetchQuestion, isViewMode, getNextQuestionId, teacherLearningId, navigate, location.state]
   );
 
   const onSubmitQuestion = useCallback(
@@ -287,9 +302,18 @@ export const useViewTLActivity = () => {
       if (isViewMode) {
         // In view mode, check if it's the last question
         if (isLastQuestion) {
-          // If last question, redirect back
+          // If last question, redirect back with lessonId preserved
           if (teacherLearningId) {
-            navigate(-1);
+            const lessonId = lessonIdFromUrl || (location.state as { lessonId?: number })?.lessonId;
+            const returnUrl = ROUTES.teacherLearning.viewTeacherLearning({ teacherLearningId });
+            const searchParams = new URLSearchParams();
+            if (lessonId) {
+              searchParams.set('lessonId', String(lessonId));
+            }
+            const finalUrl = searchParams.toString()
+              ? `${returnUrl}?${searchParams.toString()}`
+              : returnUrl;
+            navigate(finalUrl);
           }
           return;
         }
@@ -333,20 +357,39 @@ export const useViewTLActivity = () => {
       isLastQuestion,
       handleNextQuestion,
       teacherLearningId,
-      navigate
+      navigate,
+      location.state,
+      lessonIdFromUrl
     ]
   );
 
   const handleModalClose = useCallback(() => {
     if (progress?.status === 'completed' || isLastQuestion) {
-      // Activity completed, redirect back
+      // Activity completed, redirect back with lessonId preserved
       if (teacherLearningId) {
-        navigate(-1);
+        const lessonId = lessonIdFromUrl || (location.state as { lessonId?: number })?.lessonId;
+        const returnUrl = ROUTES.teacherLearning.viewTeacherLearning({ teacherLearningId });
+        const searchParams = new URLSearchParams();
+        if (lessonId) {
+          searchParams.set('lessonId', String(lessonId));
+        }
+        const finalUrl = searchParams.toString()
+          ? `${returnUrl}?${searchParams.toString()}`
+          : returnUrl;
+        navigate(finalUrl);
       }
     } else {
       handleNextQuestion();
     }
-  }, [progress, teacherLearningId, navigate, handleNextQuestion, isLastQuestion]);
+  }, [
+    progress,
+    teacherLearningId,
+    navigate,
+    handleNextQuestion,
+    isLastQuestion,
+    location.state,
+    lessonIdFromUrl
+  ]);
 
   // Check if all questions are submitted (use original API data, not modified stepper)
   const areAllQuestionsSubmitted = useMemo(() => {

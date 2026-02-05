@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 
 import { EyeOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Space } from 'antd';
+import { Avatar, Button, Space, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useChapterTable } from 'modules/ManageChapter/hooks/useChapterTable';
 import { useNavigate } from 'react-router-dom';
+import { IconWrapper } from 'style/Common/common';
 
 import { IMAGE_URL, INPUTS } from 'utils/constants';
 import { formatDate } from 'utils/constants/day';
@@ -21,8 +22,6 @@ import { CHAPTER_TAG_COLOR } from 'components/common/StatusTag/types';
 import { CommonTable } from 'components/common/Table';
 import EmptyState from 'components/common/Table/EmptyState';
 import { TruncatedTextWithTooltip } from 'components/common/TruncatedTextWithTooltip';
-
-import { IconWrapper } from './style';
 
 const ChapterTable = () => {
   const navigate = useNavigate();
@@ -104,14 +103,14 @@ const ChapterTable = () => {
         render: (_, record) => {
           return (
             <RenderActionCell>
-              <>
+              <Tooltip title="View Chapter">
                 <Button
                   type="primary"
                   size="small"
                   icon={<EyeOutlined />}
                   onClick={() => navigate(ROUTES.chapter.viewChapter(String(record.id)))}
                 />
-              </>
+              </Tooltip>
             </RenderActionCell>
           );
         }
