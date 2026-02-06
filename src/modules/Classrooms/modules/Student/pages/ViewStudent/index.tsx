@@ -18,6 +18,7 @@ import {
   StudentAssignedChapters,
   StudentAssignedClassroom
 } from 'services/manageStudent/types';
+import { authStore } from 'services/store/auth';
 
 import HeaderToolbar from 'components/common/HeaderToolbar';
 import { Loader } from 'components/common/Loader';
@@ -47,6 +48,7 @@ import {
 
 const ViewStudent = () => {
   const navigate = useNavigate();
+  const { userData } = authStore((state) => state);
   const { classroomId, studentId } = useParams<{ classroomId: string; studentId: string }>();
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
@@ -177,11 +179,18 @@ const ViewStudent = () => {
         align: 'center',
         render: (_, record: StudentAssignedClassroom) => (
           <RenderActionCell>
-            <Tooltip title="View Classroom">
+            <Tooltip
+              title={
+                record?.creator?.id === userData?.id
+                  ? 'View Classroom'
+                  : 'Access denied. This class was created by another teacher.'
+              }
+            >
               <Button
                 type="primary"
                 size="small"
                 icon={<EyeOutlined />}
+                disabled={record?.creator?.id !== userData?.id} // Disable if the current user is not the creator
                 onClick={() => {
                   navigate(ROUTES.classroom.view(String(record?.classroom_id)));
                 }}
@@ -191,7 +200,7 @@ const ViewStudent = () => {
         )
       }
     ],
-    [navigate]
+    [navigate, userData?.id]
   );
 
   // Chapters table columns
@@ -288,6 +297,16 @@ const ViewStudent = () => {
   const hasClassroomsData = classroomsData && classroomsData.length > 0;
   const hasChaptersData = chaptersData && chaptersData.length > 0;
 
+  // Calculate scroll height for classrooms table
+  // Enable scroll when there are 3 or more rows
+  // Container height is 185px (no padding now), header is ~39px, borders ~2px
+  // Available space: 185 - 39 - 2 = 144px
+  // This allows 2 rows to show (~50px each) and 3rd row to scroll without being cut off
+  const classroomsScrollConfig =
+    hasClassroomsData && classroomsData.length >= 3
+      ? { x: 'max-content', y: 144 }
+      : { x: 'max-content' };
+
   // Don't show loader if we have mock data
   if (isLoading && !studentData) return <Loader />;
 
@@ -348,7 +367,7 @@ const ViewStudent = () => {
             <ChapterProgressCard className="shadow-paper">
               <CommonTable
                 bordered
-                scroll={hasClassroomsData ? { y: 185 } : undefined}
+                scroll={classroomsScrollConfig}
                 columns={classroomsColumns}
                 dataSource={classroomsData || []}
                 pagination={false}

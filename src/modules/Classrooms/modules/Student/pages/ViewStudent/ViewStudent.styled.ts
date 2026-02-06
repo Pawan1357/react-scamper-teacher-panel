@@ -132,38 +132,27 @@ export const ChapterProgressCard = styled.div`
   width: 100%;
   min-height: 185px;
   max-height: 185px;
+  height: 185px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  box-sizing: border-box;
+  /* Override shadow-paper padding to maximize table space */
+  padding: 0 !important;
 
   .ant-table-wrapper {
     height: 100%;
-    width: 100%;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+    box-sizing: border-box;
   }
 
   .ant-table {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+    box-sizing: border-box;
   }
 
   .ant-table-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+    box-sizing: border-box;
   }
 
   .ant-table-body {
-    overflow-x: auto;
-    overflow-y: auto;
-    flex: 1;
-    min-width: 0;
+    box-sizing: border-box;
   }
 
   /* Ensure empty state displays properly */
@@ -174,6 +163,7 @@ export const ChapterProgressCard = styled.div`
     align-items: center;
     padding: 0;
     margin: 0;
+    height: 100%;
   }
 
   @media (max-width: 1200px) {
@@ -184,6 +174,8 @@ export const ChapterProgressCard = styled.div`
   @media (max-width: 768px) {
     min-height: auto;
     max-height: none;
+    height: auto;
+    padding: 20px !important;
   }
 `;
 
