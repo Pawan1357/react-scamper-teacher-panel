@@ -19,9 +19,9 @@ import { ImportSummaryWrapper } from './ImportSummary.styled';
 import SkippedStudentModal from './SkippedStudentModal';
 
 interface ExcelRowData {
-  first_name?: string;
-  last_name?: string;
-  email?: string;
+  'First Name'?: string;
+  'Last Name'?: string;
+  Email?: string;
   [key: string]: any;
 }
 
@@ -68,13 +68,13 @@ const ImportSummary: React.FC = () => {
           const processedData: ProcessedStudentData[] = parsedData
             .filter((row) => {
               // Filter out rows that don't have required fields
-              return row.first_name || row.last_name || row.email;
+              return row['First Name'] || row['Last Name'] || row['Email'];
             })
             .map((row, index) => {
-              const firstName = row.first_name || '';
-              const lastName = row.last_name || '';
+              const firstName = row['First Name'] || '';
+              const lastName = row['Last Name'] || '';
               const studentName = `${firstName} ${lastName}`.trim() || 'N/A';
-              const email = row.email || 'N/A';
+              const email = row['Email'] || 'N/A';
 
               // Generate ID in format HBK1006, HBK1007, etc.
               const idNumber = 1006 + index;
@@ -87,7 +87,7 @@ const ImportSummary: React.FC = () => {
                 key: `student-${index}`,
                 first_name: firstName,
                 last_name: lastName,
-                email: row.email || ''
+                email: row['Email'] || ''
               };
             });
 

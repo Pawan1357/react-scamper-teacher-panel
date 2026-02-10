@@ -196,7 +196,7 @@ const AddClassNameModal: React.FC<IAddClassNameModalProps> = ({
     const columnNames = headers;
 
     // Define primary required columns (exact case-sensitive match required)
-    const primaryColumns = ['first_name', 'last_name', 'email'];
+    const primaryColumns = ['First Name', 'Last Name', 'Email'];
 
     // Check which primary columns are present (case-sensitive exact match)
     const missingColumns: string[] = [];
