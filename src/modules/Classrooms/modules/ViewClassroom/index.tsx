@@ -167,7 +167,7 @@ const ViewClassroom = () => {
               />
             </Tooltip>
             {classroomData?.data?.status == 'active' && (
-              <Tooltip title="Remove Chapter">
+              <Tooltip title="Unassign Chapter">
                 <Button
                   type="primary"
                   size="small"

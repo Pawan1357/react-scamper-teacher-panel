@@ -23,6 +23,7 @@ export const ChapterSelectorWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  padding: 20px;
   overflow-x: auto;
 
   .ant-tag {

@@ -14,6 +14,7 @@ export const classroomApiEndPoints = {
   getClassroomById: (id: string) => `classroom/view/${id}`,
   getTeacherClassroomById: (id: string) => `teacher-classroom/${id}`,
   getClassroomStudentsList: `teacher-classroom/students/list`,
+  getChapterStudentsList: `teacher-classroom/chapter/students/list`,
   getChaptersList: `teacher-classroom/chapters/list`,
   assignUnassignChapters: `teacher-classroom/chapters/assign-unassign`,
   toggleArchive: (id: string) => `teacher-classroom/${id}/toggle-economy`,
@@ -22,7 +23,9 @@ export const classroomApiEndPoints = {
   getGoogleClassroomsList: `teacher-classroom/google/fetch`,
   importClassrooms: `teacher-classroom/google-classroom/import`,
   importExcelClassrooms: `teacher-classroom/excel/import`,
-  syncClassroom: `teacher-classroom/sync`
+  syncClassroom: `teacher-classroom/sync`,
+  getStudentProgress: `teacher-classroom/student-progress`,
+  saveLessonAssignment: `teacher-classroom/lesson-assignment/save`
 };
 
 export const classroomQueryKeys = {
@@ -55,6 +58,12 @@ export const classroomQueryKeys = {
     classroomId,
     args
   ],
+  getChapterStudentsList: (chapterId: string, args: Types.IChapterStudentsListReq) => [
+    ...classroomQueryKeys.all,
+    `getChapterStudentsList`,
+    chapterId,
+    args
+  ],
   assignUnassignChapters: () => [...classroomQueryKeys.all, 'assignUnassignChapters'],
   toggleArchive: () => [...classroomQueryKeys.all, 'toggleArchive'],
   toggleArchiveStatus: () => [...classroomQueryKeys.all, 'toggleArchiveStatus'],
@@ -62,7 +71,14 @@ export const classroomQueryKeys = {
   getGoogleClassroomsList: () => ['getGoogleClassroomsList'],
   importClassrooms: ['importClassrooms'],
   importExcelClassrooms: ['importExcelClassrooms'],
-  syncClassroom: ['syncClassroom']
+  syncClassroom: ['syncClassroom'],
+  getStudentProgress: (classroomId: string, chapterId?: number) => [
+    ...classroomQueryKeys.all,
+    'getStudentProgress',
+    classroomId,
+    chapterId
+  ],
+  saveLessonAssignment: () => [...classroomQueryKeys.all, 'saveLessonAssignment']
 };
 
 export const classroomApi = {
@@ -188,6 +204,36 @@ export const classroomApi = {
       .catch((error) => {
         throw error?.response?.data;
       });
+  },
+  getChapterStudentsList: (
+    args: Types.IChapterStudentsListReq
+  ): Promise<Types.IGetChapterStudentsListRes> => {
+    return apiInstance
+      .post(classroomApiEndPoints.getChapterStudentsList, args)
+      .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  },
+  getStudentProgress: (
+    args: Types.IStudentProgressReq
+  ): Promise<IApiSuccess<Types.IGetStudentProgressRes>> => {
+    return apiInstance
+      .post(classroomApiEndPoints.getStudentProgress, args)
+      .then((response) => response)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  },
+  saveLessonAssignment: (
+    args: Types.ILessonAssignmentSaveReq
+  ): Promise<IApiSuccess<Record<string, never>>> => {
+    return apiInstance
+      .post(classroomApiEndPoints.saveLessonAssignment, args)
+      .then((response) => response)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
   }
 };
 
@@ -292,6 +338,30 @@ export const classroomHooks = {
     return useApiMutation({
       mutationKey: classroomQueryKeys.toggleArchiveStatus(),
       mutationFn: (id: string) => classroomApi.toggleArchiveStatus(id)
+    });
+  },
+  useGetChapterStudentsList: (chapterId: string, args: Types.IChapterStudentsListReq) => {
+    return useApiQuery({
+      queryKey: classroomQueryKeys.getChapterStudentsList(chapterId, args),
+      queryFn: () => classroomApi.getChapterStudentsList(args),
+      queryOptions: { ...defaultQueryOptions, enabled: Boolean(chapterId) }
+    });
+  },
+  useGetStudentProgress: (classroomId: string, chapterId?: number) => {
+    return useApiQuery({
+      queryKey: classroomQueryKeys.getStudentProgress(classroomId, chapterId),
+      queryFn: () =>
+        classroomApi.getStudentProgress({
+          classroom_id: Number(classroomId),
+          ...(chapterId && { chapter_id: chapterId })
+        }),
+      queryOptions: { ...defaultQueryOptions, enabled: Boolean(classroomId) }
+    });
+  },
+  useSaveLessonAssignment: () => {
+    return useApiMutation({
+      mutationKey: classroomQueryKeys.saveLessonAssignment(),
+      mutationFn: (args: Types.ILessonAssignmentSaveReq) => classroomApi.saveLessonAssignment(args)
     });
   }
 };

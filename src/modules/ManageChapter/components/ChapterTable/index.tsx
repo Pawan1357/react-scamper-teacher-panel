@@ -49,6 +49,7 @@ const ChapterTable = () => {
           <Space>
             <Avatar
               size={32}
+              className="avatar-contain"
               src={
                 record?.thumbnail
                   ? `${IMAGE_URL}scamper/${ImageTypeEnum.CHAPTER}/${record.thumbnail}`

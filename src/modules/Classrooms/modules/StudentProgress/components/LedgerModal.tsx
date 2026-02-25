@@ -17,7 +17,7 @@ interface LedgerModalProps {
 const LEGEND_ITEMS = [
   { color: '#B4B4B4', label: 'Assigned' },
   { color: '#FFEF44', label: 'Work in progress' },
-  { color: '#EA3323', label: 'Incomplete / needs attention' },
+  { color: '#EA3323', label: 'Need Attention' },
   { color: '#0066C5', label: 'Rubrics Added' },
   { color: '#68A729', label: 'Completed' }
 ];

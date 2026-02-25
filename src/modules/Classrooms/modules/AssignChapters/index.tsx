@@ -82,7 +82,7 @@ const AssignChapters = () => {
 
     // Only call API if there are changes
     if (changedChapters?.length === 0) {
-      navigate(ROUTES.classroom.view(classroomId));
+      navigate(-1);
       return;
     }
 
@@ -98,7 +98,7 @@ const AssignChapters = () => {
           queryClient.invalidateQueries({ queryKey: manageStudentQueryKeys.all });
           queryClient.invalidateQueries({ queryKey: chapterQueryKey.all });
           queryClient.invalidateQueries({ queryKey: teacherLearningQueryKey.all });
-          navigate(ROUTES.classroom.view(classroomId));
+          navigate(-1);
         },
         onError: (error) => {
           showToaster('error', error?.message || 'Failed to assign/unassign chapters');

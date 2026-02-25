@@ -184,3 +184,92 @@ export interface IAssignUnassignChaptersReq {
   classroom_id: number;
   chapters: IChapterAssignUnassignItem[];
 }
+
+export interface IChapterStudentsListReq {
+  chapter_id: number;
+  search?: string;
+  page?: number;
+  limit?: number;
+  sort_by?: string;
+  sort_order?: string;
+}
+
+export interface IChapterStudentListItem {
+  id: number;
+  school_id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  profile_photo: any;
+  google_student_id: string;
+  student_school_id: any;
+  password: any;
+  reset_token: string;
+  reset_expires: string;
+  is_onboarded: boolean;
+  last_login: any;
+  is_active: boolean;
+  is_deleted: boolean;
+  created_at: string;
+  updated_at: string;
+  status: string;
+}
+
+export interface IGetChapterStudentsListRes {
+  student_list: IChapterStudentListItem[];
+  total_records: number;
+}
+
+export interface IStudentProgressReq {
+  classroom_id: number;
+  chapter_id?: number;
+}
+
+export interface IStudentProgressChapter {
+  id: number;
+  name: string;
+  description: string;
+  thumbnail: string;
+}
+
+export interface IStudentProgressStudent {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  profile_photo: string | null;
+  student_school_id: string | null;
+}
+
+export interface IStudentProgressLesson {
+  id: number;
+  name: string;
+  description: string;
+  sequence: number;
+  is_locked: boolean;
+}
+
+export interface IStudentProgressItem {
+  lesson_id: number;
+  status: string;
+  score: number | null;
+  points: number | null;
+}
+
+export interface IStudentProgressData {
+  student_id: number;
+  progress: IStudentProgressItem[];
+}
+
+export interface IGetStudentProgressRes {
+  chapters: IStudentProgressChapter[];
+  students: IStudentProgressStudent[];
+  lessons: IStudentProgressLesson[];
+  progress_data: IStudentProgressData[];
+  selected_chapter_id: number | null;
+}
+
+export interface ILessonAssignmentSaveReq {
+  classroom_id: number;
+  lesson_ids: number[];
+}

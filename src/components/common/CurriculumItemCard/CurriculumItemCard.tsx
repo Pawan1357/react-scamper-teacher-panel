@@ -92,7 +92,7 @@ const CurriculumItemCard = ({
           </CurriculamItem>
         ))
       ) : (
-        <Empty description="No data Found" />
+        <Empty description={isActivity ? 'No skill checks available.' : 'No lessons available.'} />
       )}
     </CurriculamList>
   );

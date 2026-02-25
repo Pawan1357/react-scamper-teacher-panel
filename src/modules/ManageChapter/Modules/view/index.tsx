@@ -1,7 +1,6 @@
-import { useMemo } from 'react';
-
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
+import { useParams } from 'react-router-dom';
 
 import { TITLES } from 'utils/constants';
 
@@ -19,103 +18,11 @@ import {
   OverviewTabContent
 } from './ViewChapter.styled';
 import { useViewChapter } from './hooks/useViewChapter';
-import type { AssignedStudentData } from './types';
 
 const ViewChapterPage: React.FC = () => {
   const { isLoading, detailTab, onDetailTabChange, contentTab, onContentTabChange, chapterData } =
     useViewChapter();
-
-  // Mock data for assigned students - TODO: Replace with actual API call
-  const assignedStudents: AssignedStudentData[] = useMemo(
-    () => [
-      {
-        id: '1',
-        student_id: 'HBK1006',
-        name: 'Dori Doreau',
-        email: 'dori01@gmail.com',
-        status: 'Complete',
-        updated_at: '2024-04-18T15:00:00Z'
-      },
-      {
-        id: '2',
-        student_id: 'HBK1007',
-        name: 'B.A. Baracus',
-        email: 'byron.b@gmail.com',
-        status: 'Complete',
-        updated_at: '2024-04-17T17:30:00Z'
-      },
-      {
-        id: '3',
-        student_id: 'HBK1008',
-        name: 'Devon Miles',
-        email: 'devon.m@gmail.com',
-        status: 'Complete',
-        updated_at: '2024-04-16T10:00:00Z'
-      },
-      {
-        id: '4',
-        student_id: 'HBK1009',
-        name: 'Peter Thornton',
-        email: 'peter.t@gmail.com',
-        status: 'Complete',
-        updated_at: '2024-04-15T14:20:00Z'
-      },
-      {
-        id: '5',
-        student_id: 'HBK1010',
-        name: 'Sledge Hammer',
-        email: 'sledge.h@gmail.com',
-        status: 'Complete',
-        updated_at: '2024-04-14T09:15:00Z'
-      },
-      {
-        id: '6',
-        student_id: 'HBK1011',
-        name: 'Thomas Magnum',
-        email: 'thomas.m@gmail.com',
-        status: 'Complete',
-        updated_at: '2024-04-13T16:30:00Z'
-      },
-      {
-        id: '7',
-        student_id: 'HBK1012',
-        name: 'Bonnie Barstow',
-        email: 'bonnie.b@gmail.com',
-        status: 'Complete',
-        updated_at: '2024-04-12T11:45:00Z'
-      },
-      {
-        id: '8',
-        student_id: 'HBK1013',
-        name: 'Rick Wright',
-        email: 'rick.w@gmail.com',
-        status: 'Pending',
-        updated_at: '2024-04-11T13:20:00Z'
-      },
-      {
-        id: '9',
-        student_id: 'HBK1014',
-        name: 'T.C. Calvin',
-        email: 'tc.c@gmail.com',
-        status: 'Pending',
-        updated_at: '2024-04-10T08:10:00Z'
-      },
-      {
-        id: '10',
-        student_id: 'HBK1015',
-        name: 'Higgins',
-        email: 'higgins@gmail.com',
-        status: 'Pending',
-        updated_at: '2024-04-09T10:00:00Z'
-      }
-    ],
-    []
-  );
-
-  const handleViewStudent = (studentId: string) => {
-    // TODO: Implement navigation to student detail page
-    console.log('View student:', studentId);
-  };
+  const { chapterId } = useParams<{ chapterId: string }>();
 
   const handleTabChange: TabsProps['onChange'] = (key) => {
     if (key === 'overview' || key === 'assigned') {
@@ -144,9 +51,7 @@ const ViewChapterPage: React.FC = () => {
     {
       key: 'assigned',
       label: 'Assigned Students',
-      children: (
-        <AssignedStudentsTable students={assignedStudents} onViewStudent={handleViewStudent} />
-      )
+      children: <AssignedStudentsTable chapterId={chapterId || ''} />
     }
   ];
 
