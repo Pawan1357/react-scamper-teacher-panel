@@ -12,6 +12,8 @@ export const Reset = createGlobalStyle`
     -ms-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 html {
