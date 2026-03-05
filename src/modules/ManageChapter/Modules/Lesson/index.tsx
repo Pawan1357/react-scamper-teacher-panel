@@ -1,4 +1,6 @@
 // Shared components used: HeaderToolbar, Meta. New files: hooks/useViewLesson.ts, components/OverviewSection.tsx, components/ContentTabsSection.tsx, Lesson.styled.ts, types.ts
+import { Button, message } from 'antd';
+
 import { TITLES } from 'utils/constants';
 
 import HeaderToolbar from 'components/common/HeaderToolbar';
@@ -17,7 +19,22 @@ const ViewLessonPage: React.FC = () => {
   return (
     <>
       <Meta title={`${TITLES.COMMON} - View Lesson`} />
-      <HeaderToolbar title="View Lesson" isMultipleBtn backBtn />
+      <HeaderToolbar
+        title="View Lesson"
+        isMultipleBtn
+        backBtn
+        button={
+          <Button
+            type="primary"
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              message.success('Lesson URL copied to clipboard.');
+            }}
+          >
+            Copy Lesson URL
+          </Button>
+        }
+      />
 
       <ContentSection role="main">
         <OverviewSection

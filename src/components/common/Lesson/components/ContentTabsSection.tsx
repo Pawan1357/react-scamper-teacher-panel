@@ -191,24 +191,6 @@ export const ContentTabsSection: React.FC<ContentTabsSectionProps> = ({
   };
 
   const tabItems: TabsProps['items'] = [
-    ...(detailTab == 'overview'
-      ? [
-          {
-            key: 'activities',
-            label: 'Skill Checks',
-            children: (
-              <section aria-label="Activities list">
-                <CurriculumItemCard
-                  isActivity
-                  listData={activities}
-                  btnText="View Skill Check"
-                  module={module}
-                />
-              </section>
-            )
-          }
-        ]
-      : []),
     {
       key: 'imagesVideos',
       label: 'Images and Videos',
@@ -243,6 +225,24 @@ export const ContentTabsSection: React.FC<ContentTabsSectionProps> = ({
           <Empty description="No downloadable content available" />
         )
     },
+    ...(detailTab == 'overview'
+      ? [
+          {
+            key: 'activities',
+            label: 'Skill Checks',
+            children: (
+              <section aria-label="Activities list">
+                <CurriculumItemCard
+                  isActivity
+                  listData={activities}
+                  btnText="View Skill Check"
+                  module={module}
+                />
+              </section>
+            )
+          }
+        ]
+      : []),
     ...(detailTab == 'overview' && showSpinningWheel && spinningWheelParts
       ? [
           {

@@ -1,4 +1,4 @@
-import { Tabs } from 'antd';
+import { Button, Tabs, message } from 'antd';
 import type { TabsProps } from 'antd';
 import { useParams } from 'react-router-dom';
 
@@ -60,7 +60,22 @@ const ViewChapterPage: React.FC = () => {
   return (
     <>
       <Meta title={`${TITLES.COMMON} - ${TITLES.CHAPTER.VIEW_CHAPTER(chapterData?.name)}`} />
-      <HeaderToolbar title={TITLES.CHAPTER.VIEW_CHAPTER(chapterData?.name)} isMultipleBtn backBtn />
+      <HeaderToolbar
+        title={TITLES.CHAPTER.VIEW_CHAPTER(chapterData?.name)}
+        isMultipleBtn
+        backBtn
+        button={
+          <Button
+            type="primary"
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              message.success('Chapter URL copied to clipboard.');
+            }}
+          >
+            Copy Chapter URL
+          </Button>
+        }
+      />
 
       <ContentSection role="main">
         <DetailTabsWrapper>

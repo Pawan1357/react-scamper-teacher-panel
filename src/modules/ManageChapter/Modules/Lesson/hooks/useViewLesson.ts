@@ -10,7 +10,7 @@ import type { ContentTabKey, DetailTabKey } from 'components/common/Lesson';
 
 export const useViewLesson = () => {
   const [detailTab, setDetailTab] = useState<DetailTabKey>('overview');
-  const [contentTab, setContentTab] = useState<ContentTabKey>('activities');
+  const [contentTab, setContentTab] = useState<ContentTabKey>('imagesVideos');
 
   const { lessonId } = useParams<{ lessonId: string }>();
 
@@ -32,7 +32,7 @@ export const useViewLesson = () => {
     if (detailTab === 'teacherGuidelines') {
       setContentTab('imagesVideos');
     } else if (detailTab === 'overview') {
-      setContentTab('activities');
+      setContentTab('imagesVideos');
     }
   }, [detailTab]);
 

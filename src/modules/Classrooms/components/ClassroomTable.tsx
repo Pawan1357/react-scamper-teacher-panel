@@ -356,7 +356,7 @@ const ClassroomTable = () => {
             archiveModalState.status === 'active' ? 'archive' : 'unarchive'
           } this classroom?`,
           description: `This classroom will be ${
-            archiveModalState.status === 'active' ? 'archive' : 'unarchive'
+            archiveModalState.status === 'active' ? 'archived' : 'unarchived'
           }.`,
           onOk: handleArchiveConfirm,
           onCancel: () => setArchiveModalState({ open: false, classroomId: '', status: '' }),
