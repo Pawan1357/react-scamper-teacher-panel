@@ -212,7 +212,7 @@ export const TITLES = {
   },
   CHAPTER: {
     LIST: 'Chapters',
-    VIEW_CHAPTER: 'View Chapter Details',
+    VIEW_CHAPTER: (name?: string) => (name ? `View ${name} Details` : 'View Chapter Details'),
     VIEW_LESSON: 'View Lesson',
     VIEW_ACTIVITY: 'View Skill Check'
   }
